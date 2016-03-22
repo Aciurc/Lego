@@ -1,0 +1,82 @@
+﻿@model DiplomaDataModel.Choice
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Choice</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstOption.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstOption.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FourthOption.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FourthOption.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SecondOption.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SecondOption.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThirdOption.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThirdOption.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.YearTerm.YearTermId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.YearTerm.YearTermId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentFirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentFirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentLastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentLastName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ChoiceId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
