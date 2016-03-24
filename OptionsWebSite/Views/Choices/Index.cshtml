@@ -2,7 +2,40 @@
 @{
     ViewBag.Title = "Choices";
 }
+<head>
+    <script>
+        var baseUrl = "http://localhost:50976/api/Choices";
+        function GetAllChoices() {
+            jQuery.support.cors = true;
+            $.ajax({
+                url: baseUrl,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    WriteResponse(data, "#div_show_all");
+                },
+                error: function (x, y, z) {
+                    alert(x + '\n' + y + '\n' + z);
+                }
+            });
+        }
+        function WriteResponse(choices, target) {
+            var strResult = "<table class='table ui-state-highlight'><tr><th>Id</th><th>ID</th><th>First Option</th><th>Last Name</th><th>Occupation</th></tr>";
+            $.each(choices, function (index, choice) {
+                strResult += "<tr>\n";
+                strResult += "<td>" + ((choice.ChoiceId !== undefined) ? choice.ChoiceId : "") + "</td><td>" + choice.FirstOption + "</td>"
+                            + "<td>" + choice.SecondOptionTitle + "</td><td>" + choice.ThirdOption.Title + "</td><td>" + choice.FourthOption.Title + "</td>"
+                            + "<td>" + choice.StudentFirstName + "</td><td>" + choice.SecondOption + "</td>";
+                strResult += "</tr>\n";
+            });
+            strResult += "</table>";
+            $(target).html(strResult);
+        }
+    </script>
+</head>
 <h2>Index</h2>
+    <button onclick="GetAllChoices(); return false;">Get All Choices</button>
+    <br /><br />
 @if ((TempData.ContainsKey("choiceExists")))
 {
     <h3><span class="field-validation-error">@TempData["choiceExists"].ToString()</span></h3>
@@ -38,6 +71,7 @@
         </th>
         <th></th>
     </tr>
+    <div id="div_show_all"></div>
     @foreach (var item in Model)
     {
         <tr>
