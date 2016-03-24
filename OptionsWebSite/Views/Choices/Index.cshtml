@@ -20,12 +20,26 @@
             });
         }
         function WriteResponse(choices, target) {
-            var strResult = "<table class='table ui-state-highlight'><tr><th>Id</th><th>ID</th><th>First Option</th><th>Last Name</th><th>Occupation</th></tr>";
+            var strResult = "<table class='table ui-state-highlight'><tr><th>First Option</th><th>Second Option</th><th>Third Option</th><th>Fourth Option</th>"
+                        + "<th>Year Term</th><th>Student Id</th><th>First Name</th><th>Last Name</th></tr>";
             $.each(choices, function (index, choice) {
+                var yt = choice.YearTerm;
+                var yearterm;
+                switch (yt.Term) {
+                    case 10:
+                        yearterm = "Winter " + yt.Year;
+                        break;
+                    case 20:
+                        yearterm = "Spring/Summer " + yt.Year;
+                        break;
+                    case 30:
+                        yearterm = "Fall " + yt.Year;
+                        break;
+                }
                 strResult += "<tr>\n";
-                strResult += "<td>" + ((choice.ChoiceId !== undefined) ? choice.ChoiceId : "") + "</td><td>" + choice.FirstOption + "</td>"
-                            + "<td>" + choice.SecondOptionTitle + "</td><td>" + choice.ThirdOption.Title + "</td><td>" + choice.FourthOption.Title + "</td>"
-                            + "<td>" + choice.StudentFirstName + "</td><td>" + choice.SecondOption + "</td>";
+                strResult += "<td>" + choice.FirstOption.Title + "</td>" + "<td>" + choice.SecondOption.Title + "</td><td>" + choice.ThirdOption.Title + "</td>"
+                           + "<td>" + choice.FourthOption.Title + "</td><td>" + yearterm + "</td><td>" + choice.StudentId + "</td>"
+                           + "<td>" + choice.StudentFirstName + "</td><td>" + choice.StudentLastName + "</td>";
                 strResult += "</tr>\n";
             });
             strResult += "</table>";
@@ -43,6 +57,8 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<div id="div_show_all"></div>
+@*
 <table class="table">
     <tr>
         <th>
@@ -71,7 +87,6 @@
         </th>
         <th></th>
     </tr>
-    <div id="div_show_all"></div>
     @foreach (var item in Model)
     {
         <tr>
@@ -88,7 +103,7 @@
                 @Html.DisplayFor(modelItem => item.FourthOption.Title)
             </td>
             <td>
-                @*@Html.DisplayFor(modelItem => item.YearTerm.YearTermId)*@
+                @Html.DisplayFor(modelItem => item.YearTerm.YearTermId)
                 @if (item.YearTerm.Term == 10)
                 { <span>Winter </span>}
                 else if (item.YearTerm.Term == 20)
@@ -115,4 +130,5 @@
             }
         </tr>
     }
+    *@
 </table>

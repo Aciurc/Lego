@@ -34,10 +34,14 @@ namespace OptionsWebAPI.Controllers
                 var q4 = from o in db.Options
                          where o.OptionId == choice.FourthChoiceOptionId
                          select o;
+                var q5 = from y in db.YearTerms
+                         where y.YearTermId == choice.YearTermId
+                         select y;
                 choice.FirstOption = q1.FirstOrDefault();
                 choice.SecondOption = q2.FirstOrDefault();
                 choice.ThirdOption = q3.FirstOrDefault();
                 choice.FourthOption = q4.FirstOrDefault();
+                choice.YearTerm = q5.FirstOrDefault();
             }
             return result;
         }
