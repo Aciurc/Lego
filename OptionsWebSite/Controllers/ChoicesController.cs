@@ -21,6 +21,8 @@ namespace OptionsWebSite.Controllers
         public ActionResult Index()
         {
             var choices = db.Choices.Include(c => c.FirstOption).Include(c => c.FourthOption).Include(c => c.SecondOption).Include(c => c.ThirdOption).Include(c => c.YearTerm);
+            ViewBag.yearTerms = db.YearTerms.ToList();
+
             //ViewBag.Message = TempData["choiceExists"].ToString();
             return View(choices.ToList());
         }

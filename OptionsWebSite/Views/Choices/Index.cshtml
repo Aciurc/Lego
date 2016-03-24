@@ -3,7 +3,22 @@
     ViewBag.Title = "Choices";
 }
 <head>
+    <script src="~/scripts/jquery-1.10.2.js"></script>
     <script>
+        var defaultTerm;
+        var currentTerm;
+        $(document).ready(function () {
+            defaultTerm = $('#termList').val();
+            currentTerm = defaultTerm;
+            GetAllChoices();
+            $('#termList').change(function () {
+                currentTerm = this.value;
+                GetAllChoices();
+                //var firstDropVal = $('#pick').val();
+            });
+
+            $('#termList').trigger('change');
+        });
         var baseUrl = "http://localhost:50976/api/Choices";
         function GetAllChoices() {
             jQuery.support.cors = true;
@@ -23,24 +38,26 @@
             var strResult = "<table class='table ui-state-highlight'><tr><th>First Option</th><th>Second Option</th><th>Third Option</th><th>Fourth Option</th>"
                         + "<th>Year Term</th><th>Student Id</th><th>First Name</th><th>Last Name</th></tr>";
             $.each(choices, function (index, choice) {
-                var yt = choice.YearTerm;
-                var yearterm;
-                switch (yt.Term) {
-                    case 10:
-                        yearterm = "Winter " + yt.Year;
-                        break;
-                    case 20:
-                        yearterm = "Spring/Summer " + yt.Year;
-                        break;
-                    case 30:
-                        yearterm = "Fall " + yt.Year;
-                        break;
+                if (choice.YearTermId == currentTerm) {
+                    var yt = choice.YearTerm;
+                    var yearterm;
+                    switch (yt.Term) {
+                        case 10:
+                            yearterm = "Winter " + yt.Year;
+                            break;
+                        case 20:
+                            yearterm = "Spring/Summer " + yt.Year;
+                            break;
+                        case 30:
+                            yearterm = "Fall " + yt.Year;
+                            break;
+                    }
+                    strResult += "<tr>\n";
+                    strResult += "<td>" + choice.FirstOption.Title + "</td>" + "<td>" + choice.SecondOption.Title + "</td><td>" + choice.ThirdOption.Title + "</td>"
+                               + "<td>" + choice.FourthOption.Title + "</td><td>" + yearterm + "</td><td>" + choice.StudentId + "</td>"
+                               + "<td>" + choice.StudentFirstName + "</td><td>" + choice.StudentLastName + "</td>";
+                    strResult += "</tr>\n";
                 }
-                strResult += "<tr>\n";
-                strResult += "<td>" + choice.FirstOption.Title + "</td>" + "<td>" + choice.SecondOption.Title + "</td><td>" + choice.ThirdOption.Title + "</td>"
-                           + "<td>" + choice.FourthOption.Title + "</td><td>" + yearterm + "</td><td>" + choice.StudentId + "</td>"
-                           + "<td>" + choice.StudentFirstName + "</td><td>" + choice.StudentLastName + "</td>";
-                strResult += "</tr>\n";
             });
             strResult += "</table>";
             $(target).html(strResult);
@@ -48,8 +65,6 @@
     </script>
 </head>
 <h2>Index</h2>
-    <button onclick="GetAllChoices(); return false;">Get All Choices</button>
-    <br /><br />
 @if ((TempData.ContainsKey("choiceExists")))
 {
     <h3><span class="field-validation-error">@TempData["choiceExists"].ToString()</span></h3>
@@ -57,7 +72,33 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<select id="termList">
+    @foreach (var year in ViewBag.yearTerms)
+    {
+        string term = "";
+        <option @if (year.IsDefault) { @Html.AttributeEncode("selected")   } value="@year.YearTermId">
+            @if (year.Term == 10)
+            {
+                term = "Winter " + year.Year;
+            }
+            else if (year.Term == 20)
+            {
+                term = "Spring/Summer " + year.Year;
+            }
+            else
+            {
+                term = "Fall " + year.Year;
+            }
+            @term
+        </option>
+    }
+</select>
+<select id="ddl2">
+    <option value="1">Detailed</option>
+    <option value="2">Charts</option>
+</select>
 <div id="div_show_all"></div>
+
 @*
 <table class="table">
     <tr>
