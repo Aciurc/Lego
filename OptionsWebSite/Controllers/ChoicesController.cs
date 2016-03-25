@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
 namespace OptionsWebSite.Controllers
 {
+    [Authorize]
     public class ChoicesController : Controller
     {
         private OptionPickerContext db = new OptionPickerContext();
@@ -96,7 +97,6 @@ namespace OptionsWebSite.Controllers
         }
    
         // GET: Choices/Create
-        [Authorize]
         public ActionResult Create()
         {
             if (exists(this.user.UserName, getTermId()))
